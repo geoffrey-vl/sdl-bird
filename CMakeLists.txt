@@ -9,12 +9,18 @@ link_directories(${SDL2}/lib)
 
 set(SOURCE_FILES
 	source/logger/logger.cpp
-    source/game.cpp
+    source/texture.cpp
+	source/game.cpp
 	source/main.cpp
 	)
 
 add_executable(sdlcppgame ${SOURCE_FILES})
-
-
-
 target_link_libraries(sdlcppgame SDL2 SDL2_image)
+
+# copy assets
+set(SOURCE_DATA_DIR ${CMAKE_SOURCE_DIR}/data)
+set(TARGET_DATA_DIR ${CMAKE_BINARY_DIR}/data)
+message(AUTHOR_WARNING "Copy from ${SOURCE_DATA_DIR} to ${TARGET_DATA_DIR}")
+add_custom_command(TARGET sdlcppgame POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+	${SOURCE_DATA_DIR} ${TARGET_DATA_DIR})

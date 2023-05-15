@@ -3,7 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <string>
-
+#include "texture.h"
 class Game
 {
 public:
@@ -22,6 +22,7 @@ private:
 	bool _running;
 	SDL_Window* _window;
 	SDL_Renderer* _renderer;
+	Texture* _bird;
 };
 
 #endif // GAME_H
