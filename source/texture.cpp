@@ -53,7 +53,7 @@ void Texture::unload()
 
 void Texture::render(SDL_Renderer* renderer)
 {
-    SDL_RenderCopy(renderer, _texture, NULL, &_size );
+    SDL_RenderCopyEx(renderer, _texture, NULL, &_size, 0, 0, SDL_FLIP_NONE);
 }
 
 void Texture::setX(int x)

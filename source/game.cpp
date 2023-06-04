@@ -52,8 +52,8 @@ bool Game::init(int width, int height)
 	Logger::debug(TAG, "renderer = %s", renderer_info.name);
 
 	Logger::debug(TAG, "Loading assets");
-	_bird = new Texture("data/assets/bird.png");
-	if(!_bird->load(_renderer)) {
+	_bird = new Bird(0, 0);
+	if(!_bird->loadData(_renderer)) {
 		return false;
 	}
 
@@ -70,7 +70,7 @@ void Game::render()
 {
 	SDL_RenderClear(_renderer); // clear the renderer to the draw color
 
-	_bird->render(_renderer);
+	_bird->draw(_renderer);
 
 	SDL_RenderPresent(_renderer); // draw to the screen
 }
@@ -97,6 +97,7 @@ void Game::handleEvents()
 
 void Game::clean()
 {
+	delete _bird;
 	if (_renderer) {
 		SDL_DestroyRenderer(_renderer);
 		_renderer = nullptr;

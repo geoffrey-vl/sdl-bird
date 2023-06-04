@@ -10,6 +10,7 @@ link_directories(${SDL2}/lib)
 set(SOURCE_FILES
 	source/logger/logger.cpp
     source/texture.cpp
+	source/gameobjects/bird.cpp
 	source/game.cpp
 	source/main.cpp
 	)
