@@ -12,8 +12,10 @@ public:
     virtual void draw(SDL_Renderer* renderer) = 0;
     virtual void update() = 0;
     virtual bool loadData(SDL_Renderer* renderer) { return true; }
+    virtual void unloadData() {}
     void setX(int x) { _x = x; }
     void setY(int y) { _y = y; }
+    void setPos(int x, int y) { _x = x; _y = y; }
 
 protected:
     int _x;

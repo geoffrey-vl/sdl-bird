@@ -4,7 +4,7 @@
 int main(int argc, char *argv[])
 {
 	Game game("SdlCppGame");
-	if(!game.init(100, 100)) {
+	if(!game.init(640, 480)) {
 		return -1;
 	}
 	while(game.running())

@@ -15,8 +15,10 @@ public:
     void render(SDL_Renderer* renderer);
     void setX(int x);
     void setY(int y);
+    void setPos(int x, int y);
     void setWidth(int width);
     void setHeight(int height);
+    void setSize(int width, int height);
 
 private:
     std::string _filename;

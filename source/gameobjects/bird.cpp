@@ -13,9 +13,19 @@ void Bird::draw(SDL_Renderer* renderer)
 
 void Bird::update()
 {
+    _texture.setPos(_x, _y);
 }
 
 bool Bird::loadData(SDL_Renderer* renderer)
 {
-    return _texture.load(renderer);
+    if (!_texture.load(renderer)) {
+        return false;
+    }
+    _texture.setSize(64, 64);
+    return true;
+}
+
+void Bird::unloadData()
+{
+    _texture.unload();
 }

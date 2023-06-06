@@ -66,6 +66,12 @@ void Texture::setY(int y)
     _size.y = y;
 }
 
+void Texture::setPos(int x, int y)
+{
+    _size.x = x;
+    _size.y = y;
+}
+
 void Texture::setWidth(int width)
 {
     _size.w = width;
@@ -73,5 +79,11 @@ void Texture::setWidth(int width)
 
 void Texture::setHeight(int height)
 {
+    _size.h = height;
+}
+
+void Texture::setSize(int width, int height)
+{
+    _size.w = width;
     _size.h = height;
 }

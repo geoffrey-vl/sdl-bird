@@ -3,11 +3,14 @@
 
 #include <SDL2/SDL.h>
 #include <string>
+#include <array>
 #include "gameobjects/bird.h"
+#include "gameobjects/box.h"
 
 class Game
 {
 public:
+	static const int NR_OF_BOXES = 28;
 	Game(const std::string& name);
 	virtual ~Game();
 
@@ -23,7 +26,11 @@ private:
 	bool _running;
 	SDL_Window* _window;
 	SDL_Renderer* _renderer;
-	Bird* _bird;	
+
+	Bird _bird;
+	std::array<Box, NR_OF_BOXES> _piramide;
+
+	bool loadAssets();
 };
 
 #endif // GAME_H

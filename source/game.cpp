@@ -8,7 +8,7 @@ Game::Game(const std::string& name) :
 	_running(false),
 	_window(nullptr),
 	_renderer(nullptr),
-	_bird(nullptr)
+	_bird(0, 0)
 {
 }
 
@@ -51,13 +51,31 @@ bool Game::init(int width, int height)
 	}
 	Logger::debug(TAG, "renderer = %s", renderer_info.name);
 
-	Logger::debug(TAG, "Loading assets");
-	_bird = new Bird(0, 0);
-	if(!_bird->loadData(_renderer)) {
+	if(!loadAssets()) {
 		return false;
 	}
 
 	_running = true;
+	return true;
+}
+
+bool Game::loadAssets()
+{
+	Logger::debug(TAG, "Loading assets");
+	for(auto& box : _piramide) {
+		if(!box.loadData(_renderer)) {
+			return false;
+		}
+	}
+	_piramide[0].setPos(288, 47);
+	_piramide[1].setPos(288-32, 93);
+	_piramide[2].setPos(288+32, 93);
+	for(auto& box : _piramide) {
+		box.update();
+	}
+	if(!_bird.loadData(_renderer)) {
+		return false;
+	}
 	return true;
 }
 
@@ -70,7 +88,10 @@ void Game::render()
 {
 	SDL_RenderClear(_renderer); // clear the renderer to the draw color
 
-	_bird->draw(_renderer);
+	for(auto& box : _piramide) {
+		box.draw(_renderer);
+	}
+	_bird.draw(_renderer);
 
 	SDL_RenderPresent(_renderer); // draw to the screen
 }
@@ -97,7 +118,10 @@ void Game::handleEvents()
 
 void Game::clean()
 {
-	delete _bird;
+	_bird.unloadData();
+	for(auto& box : _piramide) {
+		box.unloadData();
+	}
 	if (_renderer) {
 		SDL_DestroyRenderer(_renderer);
 		_renderer = nullptr;

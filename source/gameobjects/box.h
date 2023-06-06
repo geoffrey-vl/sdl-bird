@@ -1,13 +1,13 @@
-#ifndef BIRD_H
-#define BIRD_H
+#ifndef BOX_H
+#define BOX_H
 
 #include "gameobject.h"
 #include "../texture.h"
 
-class Bird : public GameObject
+class Box : public GameObject
 {
 public:
-    Bird(int x, int y);
+    Box();
 
     void draw(SDL_Renderer* renderer) override;
     void update() override;
@@ -17,4 +17,5 @@ public:
 private:
     Texture _texture;
 };
-#endif // BIRD_H
+
+#endif // BOX_H
