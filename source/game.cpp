@@ -8,7 +8,8 @@ Game::Game(const std::string& name) :
 	_running(false),
 	_window(nullptr),
 	_renderer(nullptr),
-	_bird(0, 0)
+	_bird(0, 0),
+	_is_level_setup(false)
 {
 }
 
@@ -67,16 +68,33 @@ bool Game::loadAssets()
 			return false;
 		}
 	}
-	_piramide[0].setPos(288, 47);
-	_piramide[1].setPos(288-32, 93);
-	_piramide[2].setPos(288+32, 93);
-	for(auto& box : _piramide) {
-		box.update();
-	}
 	if(!_bird.loadData(_renderer)) {
 		return false;
 	}
+	
 	return true;
+}
+
+void Game::setup_level()
+{
+	int pir_startpos_x = (Const::GAME_WIDTH/2)-(Const::OBJ_WIDTH/2);
+	static constexpr int BOX_TOPPLANE_OFFSET = 48;
+	int pir_startpos_y = BOX_TOPPLANE_OFFSET;
+	int row = 0;
+	int cols = 0;
+	static constexpr int ROWS = 7;
+	int i = 0;
+	while(row < ROWS) {
+		for (int col=0; col<=row; col++) {
+			_piramide[i].setPos(pir_startpos_x+(col*Const::OBJ_WIDTH), pir_startpos_y);
+			i++;
+		}		
+		row++;
+		pir_startpos_x -= static_cast<int>(Const::OBJ_WIDTH/2);
+		pir_startpos_y += BOX_TOPPLANE_OFFSET;
+	}
+	
+	_bird.setPos((Const::GAME_WIDTH/2)-(Const::OBJ_WIDTH/2), 0);
 }
 
 bool Game::running()
@@ -98,6 +116,14 @@ void Game::render()
 
 void Game::update()
 {
+	if (!_is_level_setup) {
+		setup_level();
+		_is_level_setup = true;
+	}
+	for(auto& box : _piramide) {
+		box.update();
+	}
+	_bird.update();
 }
 
 void Game::handleEvents()

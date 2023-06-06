@@ -1,4 +1,5 @@
 #include "box.h"
+#include "../constants.h"
 
 Box::Box() : 
     GameObject(0, 0),
@@ -21,7 +22,7 @@ bool Box::loadData(SDL_Renderer* renderer)
     if (!_texture.load(renderer)) {
         return false;
     }
-    _texture.setSize(64, 64);
+    _texture.setSize(Const::OBJ_WIDTH, Const::OBJ_HEIGHT);
     return true;
 }
 

@@ -4,7 +4,7 @@
 int main(int argc, char *argv[])
 {
 	Game game("SdlCppGame");
-	if(!game.init(640, 480)) {
+	if(!game.init(Const::GAME_WIDTH, Const::GAME_HEIGHT)) {
 		return -1;
 	}
 	while(game.running())

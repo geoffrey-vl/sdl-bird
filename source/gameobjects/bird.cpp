@@ -1,4 +1,5 @@
 #include "bird.h"
+#include "../constants.h"
 
 Bird::Bird(int x, int y) : 
     GameObject(x, y),
@@ -21,7 +22,7 @@ bool Bird::loadData(SDL_Renderer* renderer)
     if (!_texture.load(renderer)) {
         return false;
     }
-    _texture.setSize(64, 64);
+    _texture.setSize(Const::OBJ_WIDTH, Const::OBJ_HEIGHT);
     return true;
 }
 
