@@ -14,7 +14,8 @@ void Bird::draw(SDL_Renderer* renderer)
 
 void Bird::update()
 {
-    _texture.setPos(_x, _y);
+    GameObject::update();
+    _texture.setPos(_pos.getX(), _pos.getY());
 }
 
 bool Bird::loadData(SDL_Renderer* renderer)

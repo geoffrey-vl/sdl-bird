@@ -14,7 +14,8 @@ void Box::draw(SDL_Renderer* renderer)
 
 void Box::update()
 {
-    _texture.setPos(_x, _y);
+    GameObject::update();
+    _texture.setPos(_pos.getX(), _pos.getY());
 }
 
 bool Box::loadData(SDL_Renderer* renderer)
