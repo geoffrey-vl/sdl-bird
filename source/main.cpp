@@ -3,7 +3,7 @@
 
 int main(int argc, char *argv[])
 {
-	Game game("SdlCppGame");
+	Game game("sdl-bird");
 	if(!game.init(Const::GAME_WIDTH, Const::GAME_HEIGHT)) {
 		return -1;
 	}

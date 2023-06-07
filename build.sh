@@ -16,7 +16,7 @@ cmake ..
 echo "Building ..."
 make
 
-ls -al sdlcppgame
+ls -al sdl-bird
 
 cd ..
 

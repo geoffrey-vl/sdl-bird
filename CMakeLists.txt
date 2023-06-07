@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project(SdlCppGame)
+project(sdl-bird)
 
 set(CMAKE_CXX_STANDARD 14)
 
@@ -16,13 +16,13 @@ set(SOURCE_FILES
 	source/main.cpp
 	)
 
-add_executable(sdlcppgame ${SOURCE_FILES})
-target_link_libraries(sdlcppgame SDL2 SDL2_image)
+add_executable(sdl-bird ${SOURCE_FILES})
+target_link_libraries(sdl-bird SDL2 SDL2_image)
 
 # copy assets
 set(SOURCE_DATA_DIR ${CMAKE_SOURCE_DIR}/data)
 set(TARGET_DATA_DIR ${CMAKE_BINARY_DIR}/data)
 message(AUTHOR_WARNING "Copy from ${SOURCE_DATA_DIR} to ${TARGET_DATA_DIR}")
-add_custom_command(TARGET sdlcppgame POST_BUILD
+add_custom_command(TARGET sdl-bird POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy_directory
 	${SOURCE_DATA_DIR} ${TARGET_DATA_DIR})
