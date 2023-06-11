@@ -9,13 +9,8 @@ Box::Box() :
 
 void Box::draw(SDL_Renderer* renderer)
 {
-    _texture.render(renderer);
-}
-
-void Box::update()
-{
-    GameObject::update();
     _texture.setPos(_pos.getX(), _pos.getY());
+    _texture.render(renderer);
 }
 
 bool Box::loadData(SDL_Renderer* renderer)

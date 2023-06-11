@@ -16,7 +16,7 @@ public:
 
 	bool init(int width, int height);
 	void render();
-	void update();
+	void update(uint64_t timespan_ms);
 	void handleEvents();
 	void clean();
 	bool running();

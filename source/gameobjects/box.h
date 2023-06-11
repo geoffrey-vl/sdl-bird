@@ -10,7 +10,6 @@ public:
     Box();
 
     void draw(SDL_Renderer* renderer) override;
-    void update() override;
     bool loadData(SDL_Renderer* renderer) override;
     void unloadData() override;
 

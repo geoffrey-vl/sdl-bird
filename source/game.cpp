@@ -114,16 +114,18 @@ void Game::render()
 	SDL_RenderPresent(_renderer); // draw to the screen
 }
 
-void Game::update()
+void Game::update(uint64_t timespan_ms)
 {
 	if (!_is_level_setup) {
 		setup_level();
 		_is_level_setup = true;
+		_bird.setVelocity({1,0});
+		_bird.setAcceleration({0.1,0});
 	}
 	for(auto& box : _piramide) {
-		box.update();
+		box.update(timespan_ms);
 	}
-	_bird.update();
+	_bird.update(timespan_ms);
 }
 
 void Game::handleEvents()

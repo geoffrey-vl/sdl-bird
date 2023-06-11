@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 	{
 		uint64_t frame_start =  SDL_GetTicks64();
 		game.handleEvents();
-		game.update();
+		game.update(Const::DELAY_TIME);
 		game.render();
 
 		uint64_t frame_time = SDL_GetTicks64() - frame_start;

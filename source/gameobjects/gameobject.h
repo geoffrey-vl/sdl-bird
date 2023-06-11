@@ -8,18 +8,12 @@ class GameObject
 {
 public:
     GameObject(int x, int y) : 
-        _pos(x, y),
-        _velocity(0, 0),
-        _accel(0, 0)
+        _pos(x, y)
     {}
     virtual ~GameObject() {}
 
     virtual void draw(SDL_Renderer* renderer) = 0;
-    virtual void update() 
-    {
-        _velocity += _accel;
-        _pos += _velocity;
-    }
+    virtual void update(uint64_t timespan_ms) {}
     virtual bool loadData(SDL_Renderer* renderer) { return true; }
     virtual void unloadData() {}
     void setX(int x) { _pos.setX(x); }
@@ -28,7 +22,5 @@ public:
 
 protected:
     Vector2D _pos;
-    Vector2D _velocity;
-    Vector2D _accel;
 };
 #endif // GAMEOBJECT_H

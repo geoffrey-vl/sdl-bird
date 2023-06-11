@@ -1,12 +1,12 @@
 #ifndef VECTOR2D_H
 #define VECTOR2D_H
 
-#include<math.h>
+#include <math.h>
 
 class Vector2D
 {
 public:
-    Vector2D(float x, float y): _x(x), _y(y) {}
+    Vector2D(float x, float y) : _x(x), _y(y) {}
     float getX() { return _x; }
     float getY() { return _y; }
     void setX(float x) { _x = x; }
