@@ -15,8 +15,15 @@ public:
     void unloadData() override;
     void setVelocity(const Vector2D& velocity);
     void setAcceleration(const Vector2D& accel);
+    bool isMoving();
+    bool isMovingLeft();
+    bool isMovingRight();
+    void stopMoving();
 
 private:
+    bool _isMoving;
+    Vector2D _direction;
+    Vector2D _target;
     Vector2D _velocity;
     Vector2D _accel;
     Texture _texture;

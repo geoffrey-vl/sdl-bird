@@ -23,6 +23,16 @@ public:
         v1._y += v2._y;
         return v1;
     }
+    Vector2D operator*(const Vector2D& v2) const
+    {
+        return Vector2D(_x * v2._x, _y * v2._y);
+    }
+    friend Vector2D& operator*=(Vector2D& v1, const Vector2D& v2)
+    {
+        v1._x *= v2._x;
+        v1._y *= v2._y;
+        return v1;
+    }
     Vector2D operator*(float scalar)
     {
         return Vector2D(_x * scalar, _y * scalar);

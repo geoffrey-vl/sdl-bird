@@ -119,13 +119,16 @@ void Game::update(uint64_t timespan_ms)
 	if (!_is_level_setup) {
 		setup_level();
 		_is_level_setup = true;
-		_bird.setVelocity({1,0});
-		_bird.setAcceleration({0.1,0});
+		_bird.setVelocity({10,10});
 	}
 	for(auto& box : _piramide) {
 		box.update(timespan_ms);
 	}
 	_bird.update(timespan_ms);
+	if( (_bird.getX() > Const::GAME_WIDTH) || (_bird.getY() > Const::GAME_HEIGHT) ) {
+		//reset bird pos when it moves out of the window
+		_bird.setPos((Const::GAME_WIDTH/2)-(Const::OBJ_WIDTH/2), 0);
+	}
 }
 
 void Game::handleEvents()
