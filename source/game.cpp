@@ -119,10 +119,26 @@ void Game::update(uint64_t timespan_ms)
 	if (!_is_level_setup) {
 		setup_level();
 		_is_level_setup = true;
-		_bird.setVelocity({10,10});
 	}
+
 	for(auto& box : _piramide) {
 		box.update(timespan_ms);
+	}
+
+	const uint8_t* keystates = SDL_GetKeyboardState(0);
+	if (keystates != 0) {
+		if (keystates[SDL_SCANCODE_LEFT] == 1 && keystates[SDL_SCANCODE_UP] == 1) {
+			_bird.setDirection(BirdMove::TOPLEFT);
+		}
+		if (keystates[SDL_SCANCODE_LEFT] == 1 && keystates[SDL_SCANCODE_DOWN] == 1) {
+			_bird.setDirection(BirdMove::BOTTOMLEFT);
+		}
+		if (keystates[SDL_SCANCODE_RIGHT] == 1 && keystates[SDL_SCANCODE_UP] == 1) {
+			_bird.setDirection(BirdMove::TOPRIGHT);
+		}
+		if (keystates[SDL_SCANCODE_RIGHT] == 1 && keystates[SDL_SCANCODE_DOWN] == 1) {
+			_bird.setDirection(BirdMove::BOTTOMRIGHT);
+		}
 	}
 	_bird.update(timespan_ms);
 	if( (_bird.getX() > Const::GAME_WIDTH) || (_bird.getY() > Const::GAME_HEIGHT) ) {

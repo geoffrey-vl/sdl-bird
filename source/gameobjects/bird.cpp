@@ -1,8 +1,12 @@
 #include "bird.h"
 #include "../constants.h"
+#include "../logger/logger.h"
+
+static const char* TAG = "Bird";
 
 Bird::Bird(int x, int y) : 
     GameObject(x, y),
+    _birddirection(BirdMove::NONE),
     _direction(0, 0),
     _target(0, 0),
     _velocity(0, 0),
@@ -24,32 +28,23 @@ bool Bird::isMoving()
 
 bool Bird::isMovingLeft()
 {
-    if (_velocity.getX() < 0) return true;
+    if (_birddirection == BirdMove::TOPLEFT || _birddirection == BirdMove::BOTTOMLEFT) {
+        return true;
+    }
     return false;
 }
 
 bool Bird::isMovingRight()
 {
-    if (_velocity.getX() > 0) return true;
+    if (_birddirection == BirdMove::TOPRIGHT || _birddirection == BirdMove::BOTTOMRIGHT) {
+        return true;
+    }
     return false;
 }
 
 void Bird::setVelocity(const Vector2D& velocity)
 {
-    // updating velocity is only permitted while we're not moving
-    if(isMoving()) return;
-
     _velocity = velocity;
-    // set target position, which is half a block left/right
-    if (isMovingRight()) _target.setX(_pos.getX() + Const::OBJ_WIDTH/2);
-    else if (isMovingLeft()) _target.setX(_pos.getX() - Const::OBJ_WIDTH/2);
-    _target.setY(_pos.getY() + 54);
-
-    // calc the Unit vector which gives us a sense of the direction
-    _direction = _target - _pos;
-    _direction.normalize();
-
-    _isMoving = true;
 }
 
 void Bird::setAcceleration(const Vector2D& accel)
@@ -57,10 +52,41 @@ void Bird::setAcceleration(const Vector2D& accel)
     _accel = accel;
 }
 
+void Bird::setDirection(BirdMove direction)
+{
+    // updating velocity is only permitted while we're not moving
+    if(isMoving()) return;
+
+    setVelocity({40,40});
+
+    _birddirection = direction;
+    
+    // set target position, which is half a block left/right
+    if (isMovingLeft()) {
+        _target.setX(_pos.getX() - Const::OBJ_WIDTH/2);
+    }
+    if (isMovingRight()) {
+        _target.setX(_pos.getX() + Const::OBJ_WIDTH/2);
+    }
+    if (_birddirection == BirdMove::TOPLEFT || _birddirection == BirdMove::TOPRIGHT) {
+        _target.setY(_pos.getY() - 53);
+    }
+    if (_birddirection == BirdMove::BOTTOMLEFT || _birddirection == BirdMove::BOTTOMRIGHT) {
+        _target.setY(_pos.getY() + 53);
+    }
+
+    // calc the Unit vector which gives us a sense of the direction
+    _direction = _target - _pos;
+    _direction.normalize();
+
+    Logger::debug(TAG, "Moving=%s, Target={%d,%d}", birdmoveToString(direction), static_cast<int>(_target.getX()), static_cast<int>(_target.getY()));
+    _isMoving = true;    
+}
+
 void Bird::stopMoving()
 {
-    _velocity.setPos(0, 0);
-    _isMoving = true;
+    setVelocity({0,0});
+    _isMoving = false;
 }
 
 void Bird::update(uint64_t timespan_ms)
@@ -80,9 +106,17 @@ void Bird::update(uint64_t timespan_ms)
 
     // make sure we don't overshoot the target pos
     Vector2D step = _velocity * (static_cast<float>(timespan_ms)/1000.0f);
-    if (step.getX() + _pos.getX() > _target.getX()) {
-        _pos = _target;
-        return;
+    if (isMovingLeft()) {
+        if (_pos.getX() - step.getX() < _target.getX()) {
+            _pos = _target;
+            return;
+        }
+    }
+    if (isMovingRight()) {
+        if ( _pos.getX() + step.getX() > _target.getX()) {
+            _pos = _target;
+            return;
+        }
     }
 
     _pos += (_direction*step);
@@ -100,4 +134,16 @@ bool Bird::loadData(SDL_Renderer* renderer)
 void Bird::unloadData()
 {
     _texture.unload();
+}
+
+const char* Bird::birdmoveToString(BirdMove move) 
+{
+    switch(move) {
+        case BirdMove::BOTTOMLEFT: return "BOTTOMLEFT";
+        case BirdMove::BOTTOMRIGHT: return "BOTTOMRIGHT";
+        case BirdMove::TOPLEFT: return "TOPLEFT";
+        case BirdMove::TOPRIGHT: return "TOPRIGHT";
+        case BirdMove::NONE: 
+        default: return "NONE";
+    }
 }
