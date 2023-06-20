@@ -78,8 +78,7 @@ bool Game::loadAssets()
 void Game::setup_level()
 {
 	int pir_startpos_x = (Const::GAME_WIDTH/2)-(Const::OBJ_WIDTH/2);
-	static constexpr int BOX_TOPPLANE_OFFSET = 48;
-	int pir_startpos_y = BOX_TOPPLANE_OFFSET;
+	int pir_startpos_y = Const::BOX_PROJECTED_HEIGHT;
 	int row = 0;
 	int cols = 0;
 	static constexpr int ROWS = 7;
@@ -91,10 +90,10 @@ void Game::setup_level()
 		}		
 		row++;
 		pir_startpos_x -= static_cast<int>(Const::OBJ_WIDTH/2);
-		pir_startpos_y += BOX_TOPPLANE_OFFSET;
+		pir_startpos_y += Const::BOX_PROJECTED_HEIGHT;
 	}
 	
-	_bird.setPos((Const::GAME_WIDTH/2)-(Const::OBJ_WIDTH/2), 0);
+	_bird.setPos((Const::GAME_WIDTH/2)-(Const::OBJ_WIDTH/2), 4);
 }
 
 bool Game::running()

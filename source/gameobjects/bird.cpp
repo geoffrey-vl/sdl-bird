@@ -69,10 +69,10 @@ void Bird::setDirection(BirdMove direction)
         _target.setX(_pos.getX() + Const::OBJ_WIDTH/2);
     }
     if (_birddirection == BirdMove::TOPLEFT || _birddirection == BirdMove::TOPRIGHT) {
-        _target.setY(_pos.getY() - 53);
+        _target.setY(_pos.getY() - Const::BOX_PROJECTED_HEIGHT);
     }
     if (_birddirection == BirdMove::BOTTOMLEFT || _birddirection == BirdMove::BOTTOMRIGHT) {
-        _target.setY(_pos.getY() + 53);
+        _target.setY(_pos.getY() + Const::BOX_PROJECTED_HEIGHT);
     }
 
     // calc the Unit vector which gives us a sense of the direction
