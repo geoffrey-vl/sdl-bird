@@ -4,6 +4,15 @@
 #include <SDL2/SDL.h>
 #include "../vector2d.h"
 
+enum class Direction 
+{
+    NONE,
+    TOPLEFT,
+    TOPRIGHT,
+    BOTTOMLEFT,
+    BOTTOMRIGHT
+};
+
 class GameObject
 {
 public:

@@ -6,7 +6,7 @@ static const char* TAG = "Bird";
 
 Bird::Bird(int x, int y) : 
     GameObject(x, y),
-    _birddirection(BirdMove::NONE),
+    _birddirection(Direction::NONE),
     _direction(0, 0),
     _target(0, 0),
     _velocity(0, 0),
@@ -28,7 +28,7 @@ bool Bird::isMoving()
 
 bool Bird::isMovingLeft()
 {
-    if (_birddirection == BirdMove::TOPLEFT || _birddirection == BirdMove::BOTTOMLEFT) {
+    if (_birddirection == Direction::TOPLEFT || _birddirection == Direction::BOTTOMLEFT) {
         return true;
     }
     return false;
@@ -36,7 +36,7 @@ bool Bird::isMovingLeft()
 
 bool Bird::isMovingRight()
 {
-    if (_birddirection == BirdMove::TOPRIGHT || _birddirection == BirdMove::BOTTOMRIGHT) {
+    if (_birddirection == Direction::TOPRIGHT || _birddirection == Direction::BOTTOMRIGHT) {
         return true;
     }
     return false;
@@ -52,12 +52,12 @@ void Bird::setAcceleration(const Vector2D& accel)
     _accel = accel;
 }
 
-void Bird::setDirection(BirdMove direction)
+void Bird::setDirection(Direction direction)
 {
     // updating velocity is only permitted while we're not moving
     if(isMoving()) return;
 
-    setVelocity({40,40});
+    setVelocity({80,80});
 
     _birddirection = direction;
     
@@ -68,10 +68,10 @@ void Bird::setDirection(BirdMove direction)
     if (isMovingRight()) {
         _target.setX(_pos.getX() + Const::OBJ_WIDTH/2);
     }
-    if (_birddirection == BirdMove::TOPLEFT || _birddirection == BirdMove::TOPRIGHT) {
+    if (_birddirection == Direction::TOPLEFT || _birddirection == Direction::TOPRIGHT) {
         _target.setY(_pos.getY() - Const::BOX_PROJECTED_HEIGHT);
     }
-    if (_birddirection == BirdMove::BOTTOMLEFT || _birddirection == BirdMove::BOTTOMRIGHT) {
+    if (_birddirection == Direction::BOTTOMLEFT || _birddirection == Direction::BOTTOMRIGHT) {
         _target.setY(_pos.getY() + Const::BOX_PROJECTED_HEIGHT);
     }
 
@@ -136,14 +136,14 @@ void Bird::unloadData()
     _texture.unload();
 }
 
-const char* Bird::birdmoveToString(BirdMove move) 
+const char* Bird::birdmoveToString(Direction move) 
 {
     switch(move) {
-        case BirdMove::BOTTOMLEFT: return "BOTTOMLEFT";
-        case BirdMove::BOTTOMRIGHT: return "BOTTOMRIGHT";
-        case BirdMove::TOPLEFT: return "TOPLEFT";
-        case BirdMove::TOPRIGHT: return "TOPRIGHT";
-        case BirdMove::NONE: 
+        case Direction::BOTTOMLEFT: return "BOTTOMLEFT";
+        case Direction::BOTTOMRIGHT: return "BOTTOMRIGHT";
+        case Direction::TOPLEFT: return "TOPLEFT";
+        case Direction::TOPRIGHT: return "TOPRIGHT";
+        case Direction::NONE: 
         default: return "NONE";
     }
 }

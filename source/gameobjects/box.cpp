@@ -3,8 +3,23 @@
 
 Box::Box() : 
     GameObject(0, 0),
+    _adjacents(),
     _texture("data/assets/box01.png")
 {
+    _adjacents[Direction::TOPLEFT] = nullptr;
+    _adjacents[Direction::TOPRIGHT] = nullptr;
+    _adjacents[Direction::BOTTOMLEFT] = nullptr;
+    _adjacents[Direction::BOTTOMRIGHT] = nullptr;
+}
+
+std::shared_ptr<Box> Box::getAdjecent(Direction key)
+{
+    return _adjacents[key];
+}
+
+void Box::setAdjacent(Direction key, std::shared_ptr<Box> adjacent)
+{
+    _adjacents[key] = adjacent;
 }
 
 void Box::draw(SDL_Renderer* renderer)

@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <string>
 #include <array>
+#include <memory>
 #include "constants.h"
 #include "gameobjects/bird.h"
 #include "gameobjects/box.h"
@@ -28,8 +29,9 @@ private:
 	SDL_Renderer* _renderer;
 
 	Bird _bird;
-	std::array<Box, Const::NR_OF_BOXES> _piramide;
+	std::array<std::shared_ptr<Box>, Const::NR_OF_BOXES> _piramide;
 	bool _is_level_setup;
+	std::shared_ptr<Box> _current_box;
 
 	bool loadAssets();
 	void setup_level();
