@@ -235,10 +235,6 @@ void Game::update(uint64_t timespan_ms)
 
 	// process bird
 	_bird.update(timespan_ms);
-	if( (_bird.getX() > Const::GAME_WIDTH) || (_bird.getY() > Const::GAME_HEIGHT) ) {
-		//reset bird pos when it moves out of the window
-		_bird.setPos((Const::GAME_WIDTH/2)-(Const::OBJ_WIDTH/2), 0);
-	}
 }
 
 void Game::handleEvents()
