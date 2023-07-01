@@ -227,7 +227,7 @@ void Game::update(uint64_t timespan_ms)
 			// check if this a valid box to jump to
 			std::shared_ptr<Box> target_box = _current_box->getAdjecent(direction);
 			if (target_box != nullptr) {
-				_bird.setDirection(direction);
+				_bird.startMove(direction);
 				_current_box = target_box;
 			}
 		}

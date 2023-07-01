@@ -52,7 +52,7 @@ void Bird::setAcceleration(const Vector2D& accel)
     _accel = accel;
 }
 
-void Bird::setDirection(Direction direction)
+void Bird::startMove(Direction direction)
 {
     // updating velocity is only permitted while we're not moving
     if(isMoving()) return;

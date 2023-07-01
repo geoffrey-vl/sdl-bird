@@ -13,7 +13,7 @@ public:
     void update(uint64_t timespan_ms) override;
     bool loadData(SDL_Renderer* renderer) override;
     void unloadData() override;
-    void setDirection(Direction direction);
+    void startMove(Direction direction);
     bool isMoving();
     void stopMoving();
 

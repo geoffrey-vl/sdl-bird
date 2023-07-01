@@ -27,6 +27,7 @@ public:
     virtual void unloadData() {}
     float getX() { return _pos.getX(); }
     float getY() { return _pos.getY(); }
+    const Vector2D& getPos() const { return _pos; }
     void setX(float x) { _pos.setX(x); }
     void setY(float y) { _pos.setY(y); }
     void setPos(float x, float y) { _pos.setPos(x, y); }
