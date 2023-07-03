@@ -20,8 +20,8 @@ public:
 
 private:
     Texture _texture;
-    LinearAnimation _animation;
-
+    JumpAnimation _animation;
+    
     const char* birdmoveToString(Direction move);
 };
 #endif // BIRD_H

@@ -44,4 +44,12 @@ public:
     virtual AnimationState update(uint64_t timespan_ms) override;
 };
 
+class JumpAnimation : public Animation
+{
+public:
+    JumpAnimation();
+
+    virtual AnimationState update(uint64_t timespan_ms) override;
+};
+
 #endif //ANIMATION_H
