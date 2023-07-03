@@ -6,12 +6,8 @@ static const char* TAG = "Bird";
 
 Bird::Bird(int x, int y) : 
     GameObject(x, y),
-    _birddirection(Direction::NONE),
-    _direction(0, 0),
-    _target(0, 0),
-    _velocity(0, 0),
-    _accel(0, 0),
-    _texture("data/assets/bird.png")
+    _texture("data/assets/bird.png"),
+    _animation()
 {
 }
 
@@ -23,103 +19,47 @@ void Bird::draw(SDL_Renderer* renderer)
 
 bool Bird::isMoving()
 {
-    return _isMoving;
-}
-
-bool Bird::isMovingLeft()
-{
-    if (_birddirection == Direction::TOPLEFT || _birddirection == Direction::BOTTOMLEFT) {
-        return true;
-    }
-    return false;
-}
-
-bool Bird::isMovingRight()
-{
-    if (_birddirection == Direction::TOPRIGHT || _birddirection == Direction::BOTTOMRIGHT) {
-        return true;
-    }
-    return false;
-}
-
-void Bird::setVelocity(const Vector2D& velocity)
-{
-    _velocity = velocity;
-}
-
-void Bird::setAcceleration(const Vector2D& accel)
-{
-    _accel = accel;
+    return _animation.isStarted();
 }
 
 void Bird::startMove(Direction direction)
 {
-    // updating velocity is only permitted while we're not moving
+    // starting movement is only permitted while we're not moving
     if(isMoving()) return;
 
-    setVelocity({80,80});
-
-    _birddirection = direction;
-    
-    // set target position, which is half a block left/right
-    if (isMovingLeft()) {
-        _target.setX(_pos.getX() - Const::OBJ_WIDTH/2);
+    // set target position, which is half a block left/right.
+    Vector2D target;
+    if (direction == Direction::TOPLEFT || direction == Direction::BOTTOMLEFT) {
+        target.setX(_pos.getX() - Const::OBJ_WIDTH/2);
     }
-    if (isMovingRight()) {
-        _target.setX(_pos.getX() + Const::OBJ_WIDTH/2);
+    if (direction == Direction::TOPRIGHT || direction == Direction::BOTTOMRIGHT) {
+        target.setX(_pos.getX() + Const::OBJ_WIDTH/2);
     }
-    if (_birddirection == Direction::TOPLEFT || _birddirection == Direction::TOPRIGHT) {
-        _target.setY(_pos.getY() - Const::BOX_PROJECTED_HEIGHT);
+    if (direction == Direction::TOPLEFT || direction == Direction::TOPRIGHT) {
+        target.setY(_pos.getY() - Const::BOX_PROJECTED_HEIGHT);
     }
-    if (_birddirection == Direction::BOTTOMLEFT || _birddirection == Direction::BOTTOMRIGHT) {
-        _target.setY(_pos.getY() + Const::BOX_PROJECTED_HEIGHT);
+    if (direction == Direction::BOTTOMLEFT || direction == Direction::BOTTOMRIGHT) {
+        target.setY(_pos.getY() + Const::BOX_PROJECTED_HEIGHT);
     }
 
-    // calc the Unit vector which gives us a sense of the direction
-    _direction = _target - _pos;
-    _direction.normalize();
-
-    Logger::debug(TAG, "Moving=%s, Target={%d,%d}", birdmoveToString(direction), static_cast<int>(_target.getX()), static_cast<int>(_target.getY()));
-    _isMoving = true;    
+    Logger::debug(TAG, "Moving=%s, Start={%d,%d}, Target={%d,%d}", 
+        birdmoveToString(direction), 
+        static_cast<int>(_pos.getX()), static_cast<int>(_pos.getY()),
+        static_cast<int>(target.getX()), static_cast<int>(target.getY())
+    );
+    _animation.start(_pos, target, 500);  
 }
 
 void Bird::stopMoving()
 {
-    setVelocity({0,0});
-    _isMoving = false;
+    _animation.stop();
 }
 
 void Bird::update(uint64_t timespan_ms)
 {
     if(!isMoving()) return;
-
-    _velocity += _accel;
-
-    // calc the remaining distance
-    Vector2D remaining_dist = _target - _pos;
-
-    // stop when we reach the target pos
-    if (remaining_dist.getX() == 0) {
-        stopMoving();
-        return;
-    };
-
-    // make sure we don't overshoot the target pos
-    Vector2D step = _velocity * (static_cast<float>(timespan_ms)/1000.0f);
-    if (isMovingLeft()) {
-        if (_pos.getX() - step.getX() < _target.getX()) {
-            _pos = _target;
-            return;
-        }
-    }
-    if (isMovingRight()) {
-        if ( _pos.getX() + step.getX() > _target.getX()) {
-            _pos = _target;
-            return;
-        }
-    }
-
-    _pos += (_direction*step);
+    _animation.update(timespan_ms);
+    _pos = _animation.getPos();
 }
 
 bool Bird::loadData(SDL_Renderer* renderer)

@@ -6,6 +6,7 @@
 class Vector2D
 {
 public:
+    Vector2D() : _x(0), _y(0) {}
     Vector2D(float x, float y) : _x(x), _y(y) {}
     float getX() { return _x; }
     float getY() { return _y; }
@@ -70,6 +71,11 @@ public:
         {
             (*this) *= 1 / l;
         }
+    }
+    void abs()
+    {
+        if(_x < 0) _x *= -1;
+        if(_y < 0) _y *= -1;
     }
 
 private:
