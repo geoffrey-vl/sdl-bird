@@ -19,11 +19,13 @@ public:
     void setWidth(int width);
     void setHeight(int height);
     void setSize(int width, int height);
+    void setFlip(SDL_RendererFlip flip);
 
 private:
     std::string _filename;
     SDL_Texture* _texture;
     SDL_Rect _size;
+    SDL_RendererFlip _flip;
 };
 
 #endif // TEXTURE_H

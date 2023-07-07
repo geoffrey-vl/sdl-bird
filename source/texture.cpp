@@ -7,7 +7,8 @@ static const char* TAG = "GAME";
 Texture::Texture(const std::string& filename) :
     _filename(filename),
     _texture(nullptr),
-    _size()
+    _size(),
+    _flip(SDL_FLIP_NONE)
 {
 }
 
@@ -53,7 +54,7 @@ void Texture::unload()
 
 void Texture::render(SDL_Renderer* renderer)
 {
-    SDL_RenderCopyEx(renderer, _texture, NULL, &_size, 0, 0, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer, _texture, NULL, &_size, 0, 0, _flip);
 }
 
 void Texture::setX(int x)
@@ -86,4 +87,9 @@ void Texture::setSize(int width, int height)
 {
     _size.w = width;
     _size.h = height;
+}
+
+void Texture::setFlip(SDL_RendererFlip flip)
+{
+    _flip = flip;
 }

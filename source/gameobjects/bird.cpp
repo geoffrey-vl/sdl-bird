@@ -6,15 +6,38 @@ static const char* TAG = "Bird";
 
 Bird::Bird(int x, int y) : 
     GameObject(x, y),
-    _texture("data/assets/bird.png"),
-    _animation()
+    _texture_down("data/assets/bird_down.png"),
+    _texture_up("data/assets/bird_up.png"),
+    _animation(),
+    _direction(Direction::BOTTOMLEFT)
 {
 }
 
 void Bird::draw(SDL_Renderer* renderer)
 {
-    _texture.setPos(_pos.getX(), _pos.getY());
-    _texture.render(renderer);
+    switch (_direction)
+    {
+        case Direction::BOTTOMLEFT:
+            _texture_down.setPos(_pos.getX(), _pos.getY());
+            _texture_down.setFlip(SDL_FLIP_HORIZONTAL);
+            _texture_down.render(renderer);
+            break;
+         case Direction::BOTTOMRIGHT:
+            _texture_down.setPos(_pos.getX(), _pos.getY());
+            _texture_down.setFlip(SDL_FLIP_NONE);
+            _texture_down.render(renderer);
+            break;
+        case Direction::TOPLEFT:
+            _texture_up.setPos(_pos.getX(), _pos.getY());
+            _texture_up.setFlip(SDL_FLIP_HORIZONTAL);
+            _texture_up.render(renderer);
+            break;
+        case Direction::TOPRIGHT:
+            _texture_up.setPos(_pos.getX(), _pos.getY());
+            _texture_up.setFlip(SDL_FLIP_NONE);
+            _texture_up.render(renderer);
+            break;
+    }
 }
 
 bool Bird::isMoving()
@@ -42,6 +65,8 @@ void Bird::startMove(Direction direction)
         target.setY(_pos.getY() + Const::BOX_PROJECTED_HEIGHT);
     }
 
+    _direction = direction;
+
     Logger::debug(TAG, "Moving=%s, Start={%d,%d}, Target={%d,%d}", 
         birdmoveToString(direction), 
         static_cast<int>(_pos.getX()), static_cast<int>(_pos.getY()),
@@ -64,16 +89,21 @@ void Bird::update(uint64_t timespan_ms)
 
 bool Bird::loadData(SDL_Renderer* renderer)
 {
-    if (!_texture.load(renderer)) {
+    if (!_texture_down.load(renderer)) {
         return false;
     }
-    _texture.setSize(Const::OBJ_WIDTH, Const::OBJ_HEIGHT);
+    if (!_texture_up.load(renderer)) {
+        return false;
+    }
+    _texture_down.setSize(Const::OBJ_WIDTH, Const::OBJ_HEIGHT);
+    _texture_up.setSize(Const::OBJ_WIDTH, Const::OBJ_HEIGHT);
     return true;
 }
 
 void Bird::unloadData()
 {
-    _texture.unload();
+    _texture_down.unload();
+    _texture_up.unload();
 }
 
 const char* Bird::birdmoveToString(Direction move) 

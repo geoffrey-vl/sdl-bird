@@ -19,8 +19,10 @@ public:
     void stopMoving();
 
 private:
-    Texture _texture;
+    Texture _texture_down;
+    Texture _texture_up;
     JumpAnimation _animation;
+    Direction _direction;
     
     const char* birdmoveToString(Direction move);
 };

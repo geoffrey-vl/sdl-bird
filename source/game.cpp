@@ -169,7 +169,7 @@ void Game::setup_level()
 	setAdjacent(_piramide[20], Direction::BOTTOMLEFT, _piramide[26]);
 	setAdjacent(_piramide[20], Direction::BOTTOMRIGHT, _piramide[27]);
 	
-	_bird.setPos((Const::GAME_WIDTH/2)-(Const::OBJ_WIDTH/2), 4);
+	_bird.setPos((Const::GAME_WIDTH/2)-(Const::OBJ_WIDTH/2), 12);
 }
 
 bool Game::running()
